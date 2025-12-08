@@ -1,0 +1,42 @@
+{
+  "name": "practice-flow-backend",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "set NODE_ENV=development && nodemon src/server.ts",
+    "dev:prod": "set NODE_ENV=production && nodemon src/server.ts",
+    "build": "tsc",
+    "start": "set NODE_ENV=production && node dist/server.js",
+    "start:dev": "set NODE_ENV=development && node dist/server.js",
+    "type-check": "tsc --noEmit",
+    "seed": "set NODE_ENV=development && ts-node src/utils/seed.ts",
+    "seed:prod": "set NODE_ENV=production && ts-node src/utils/seed.ts",
+    "test": "echo \"Tests not configured yet\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Backend API for Practice Flow healthcare management application",
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "^13.0.2",
+    "@fastify/jwt": "^10.0.0",
+    "@fastify/multipart": "^9.3.0",
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.10.1",
+    "@types/node-mailjet": "^3.3.12",
+    "@types/twilio": "^3.19.2",
+    "cloudinary": "^2.8.0",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.6.2",
+    "mongoose": "^9.0.1",
+    "node-mailjet": "^6.0.11",
+    "nodemon": "^3.1.11",
+    "pino-pretty": "^13.1.3",
+    "ts-node": "^10.9.2",
+    "twilio": "^5.10.7",
+    "typescript": "^5.9.3"
+  }
+}

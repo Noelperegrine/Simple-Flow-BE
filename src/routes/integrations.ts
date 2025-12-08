@@ -1,0 +1,126 @@
+import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import MailjetService from '../services/mailjetService';
+import TwilioService from '../services/twilioService';
+
+// Integration service routes
+export default async function integrationRoutes(fastify: FastifyInstance, options: FastifyPluginOptions) {
+  // POST /api/integrations/invoke-llm
+  fastify.post('/invoke-llm', async (request, reply) => {
+    // TODO: Implement LLM integration
+    reply.code(501).send({ error: 'Not implemented yet' });
+  });
+
+  // POST /api/integrations/send-email
+  fastify.post('/send-email', {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['to', 'subject'],
+        properties: {
+          to: { type: 'string', format: 'email' },
+          subject: { type: 'string' },
+          body: { type: 'string' },
+          html: { type: 'string' },
+          from: { type: 'string', format: 'email' },
+          fromName: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    try {
+      const mailjetService = new MailjetService();
+      const result = await mailjetService.sendEmail(request.body as any);
+      
+      reply.send({
+        success: true,
+        message: 'Email sent successfully',
+        data: result
+      });
+    } catch (error: any) {
+      reply.code(500).send({
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
+  // POST /api/integrations/send-sms
+  fastify.post('/send-sms', {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['to', 'message'],
+        properties: {
+          to: { type: 'string' },
+          message: { type: 'string', maxLength: 1600 },
+          from: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    try {
+      const twilioService = new TwilioService();
+      const result = await twilioService.sendSMS(request.body as any);
+      
+      reply.send({
+        success: true,
+        message: 'SMS sent successfully',
+        data: result
+      });
+    } catch (error: any) {
+      reply.code(500).send({
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
+  // POST /api/integrations/send-whatsapp
+  fastify.post('/send-whatsapp', {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['to', 'message'],
+        properties: {
+          to: { type: 'string' },
+          message: { type: 'string' },
+          mediaUrl: { type: 'string', format: 'uri' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    try {
+      const twilioService = new TwilioService();
+      const result = await twilioService.sendWhatsApp(request.body as any);
+      
+      reply.send({
+        success: true,
+        message: 'WhatsApp message sent successfully',
+        data: result
+      });
+    } catch (error: any) {
+      reply.code(500).send({
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
+  // POST /api/integrations/upload-file
+  fastify.post('/upload-file', async (request, reply) => {
+    // TODO: Implement file upload
+    reply.code(501).send({ error: 'Not implemented yet' });
+  });
+
+  // POST /api/integrations/generate-image
+  fastify.post('/generate-image', async (request, reply) => {
+    // TODO: Implement image generation
+    reply.code(501).send({ error: 'Not implemented yet' });
+  });
+
+  // POST /api/integrations/extract-data-from-file
+  fastify.post('/extract-data-from-file', async (request, reply) => {
+    // TODO: Implement data extraction
+    reply.code(501).send({ error: 'Not implemented yet' });
+  });
+}
