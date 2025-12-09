@@ -16,12 +16,12 @@ dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 // Fallback to .env if environment-specific file doesn't exist
 dotenv.config();
 
-// Route imports (will be created)
-// import authRoutes from './routes/auth';
-// import entityRoutes from './routes/entities';
-// import integrationRoutes from './routes/integrations';
-// import loggingRoutes from './routes/logging';
-// import configRoutes from './routes/config';
+// Route imports
+import authRoutes from './routes/auth';
+import entityRoutes from './routes/entities';
+import integrationRoutes from './routes/integrations';
+import loggingRoutes from './routes/logging';
+import configRoutes from './routes/config';
 
 const server = fastify({
   logger: process.env.NODE_ENV === 'development' ? {
@@ -92,12 +92,12 @@ async function build() {
       };
     });
 
-    // Register routes (placeholder - will be uncommented when routes are created)
-    // await server.register(authRoutes, { prefix: '/api/auth' });
-    // await server.register(entityRoutes, { prefix: '/api/entities' });
-    // await server.register(integrationRoutes, { prefix: '/api/integrations' });
-    // await server.register(loggingRoutes, { prefix: '/api/app-logs' });
-    // await server.register(configRoutes, { prefix: '/prod' });
+    // Register routes
+    await server.register(authRoutes, { prefix: '/api/auth' });
+    await server.register(entityRoutes, { prefix: '/api/entities' });
+    await server.register(integrationRoutes, { prefix: '/api/integrations' });
+    await server.register(loggingRoutes, { prefix: '/api/app-logs' });
+    await server.register(configRoutes, { prefix: '/prod' });
 
     return server;
   } catch (err) {

@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import MailjetService from '../services/mailjetService';
-import TwilioService from '../services/twilioService';
+import { MailjetService } from '../services/mailjetService';
+import TermiiService from '../services/termiiService';
 
 // Integration service routes
 export default async function integrationRoutes(fastify: FastifyInstance, options: FastifyPluginOptions) {
@@ -29,7 +29,8 @@ export default async function integrationRoutes(fastify: FastifyInstance, option
   }, async (request, reply) => {
     try {
       const mailjetService = new MailjetService();
-      const result = await mailjetService.sendEmail(request.body as any);
+      const { to, ...emailData } = request.body as any;
+      const result = await mailjetService.sendMail(to, emailData);
       
       reply.send({
         success: true,
@@ -59,8 +60,8 @@ export default async function integrationRoutes(fastify: FastifyInstance, option
     }
   }, async (request, reply) => {
     try {
-      const twilioService = new TwilioService();
-      const result = await twilioService.sendSMS(request.body as any);
+      const termiiService = new TermiiService();
+      const result = await termiiService.sendSMS(request.body as any);
       
       reply.send({
         success: true,
@@ -90,8 +91,8 @@ export default async function integrationRoutes(fastify: FastifyInstance, option
     }
   }, async (request, reply) => {
     try {
-      const twilioService = new TwilioService();
-      const result = await twilioService.sendWhatsApp(request.body as any);
+      const termiiService = new TermiiService();
+      const result = await termiiService.sendSMS(request.body as any);
       
       reply.send({
         success: true,

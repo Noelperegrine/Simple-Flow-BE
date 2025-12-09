@@ -74,7 +74,7 @@ Based on the detailed `BACKEND_IMPLEMENTATION_SPEC.md`, Practice Flow requires *
    npm run seed
    ```
 
-5. **API Documentation:** http://localhost:3000/documentation
+5. **API Documentation:** http://localhost:5000/documentation
 
 ### Advanced Environment Setup (Optional)
 
