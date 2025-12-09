@@ -43,7 +43,11 @@ async function build() {
     await server.register(helmet);
     
     await server.register(cors, {
-      origin: process.env.FRONTEND_URL || 'http://localhost:5174',
+      origin: [
+        'http://localhost:5174',
+        'https://simple-flow-lemon.vercel.app',
+        process.env.FRONTEND_URL || ''
+      ].filter(url => url && url.length > 0),
       credentials: true
     });
 
