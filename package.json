@@ -11,6 +11,12 @@
     "type-check": "tsc --noEmit",
     "seed": "set NODE_ENV=development && ts-node src/utils/seed.ts",
     "seed:prod": "set NODE_ENV=production && ts-node src/utils/seed.ts",
+    "bulk-import": "ts-node src/scripts/bulk-import-cli.ts",
+    "import-all-data": "ts-node src/scripts/import-all-data.ts",
+    "clear-data": "ts-node src/scripts/clear-data-cli.ts",
+    "clear-imported": "ts-node src/scripts/clear-imported-cli.ts",
+    "list-sessions": "ts-node src/scripts/list-sessions-cli.ts",
+    "simple-fast-import": "ts-node src/scripts/simple-fast-import.ts",
     "test": "echo \"Tests not configured yet\""
   },
   "keywords": [],

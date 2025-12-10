@@ -44,11 +44,19 @@ async function build() {
     
     await server.register(cors, {
       origin: [
+        'http://localhost:5173',
         'http://localhost:5174',
+        'http://localhost:3000',
         'https://simple-flow-lemon.vercel.app',
+        'https://simple-flow-backend.onrender.com',
+        'https://simple-flow-be.onrender.com',
         process.env.FRONTEND_URL || ''
       ].filter(url => url && url.length > 0),
-      credentials: true
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+      preflightContinue: false,
+      optionsSuccessStatus: 204
     });
 
     await server.register(jwt, {

@@ -35,6 +35,17 @@ coverage/
 *.swp
 *.swo
 
+# Data files (exclude large datasets but keep documentation)
+data/*
+!data/README.md
+
+# Test files
+test-*.ts
+test-*.js
+test-data.json
+seed-database.ts
+verify-services.ts
+
 # OS generated files
 .DS_Store
 .DS_Store?

@@ -155,3 +155,6 @@ export const Customer = mongoose.model<ICustomer>('Customer', CustomerSchema);
 export const User = mongoose.model<IUser>('User', UserSchema);
 export const AppConfig = mongoose.model<IAppConfig>('AppConfig', AppConfigSchema);
 export const ActivityLog = mongoose.model<IActivityLog>('ActivityLog', ActivityLogSchema);
+
+// Import the ImportSession model to ensure it's registered
+export { ImportSession } from '../utils/import-tracker';
