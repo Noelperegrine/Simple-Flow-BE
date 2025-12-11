@@ -21,7 +21,9 @@
     "test-openai": "ts-node src/scripts/test-openai-integration.ts",
     "test-openai-quick": "ts-node src/scripts/quick-openai-test.ts",
     "test-settings": "ts-node src/scripts/test-settings-config.ts",
-    "test-custom-api": "ts-node src/scripts/test-custom-api-key.ts"
+    "test-custom-api": "ts-node src/scripts/test-custom-api-key.ts",
+    "test-model-only": "ts-node src/scripts/test-model-only-selection.ts",
+    "test-toast": "ts-node src/scripts/test-toast-messages.ts"
   },
   "keywords": [],
   "author": "",
