@@ -6,12 +6,14 @@ import { BulkImporter } from '../utils/bulk-import';
 import connectDB from '../utils/database';
 import { Customer, User, AppConfig, ActivityLog } from '../models/mongodb';
 
-// Load environment variables (same pattern as bulk-import-cli.ts)
-const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development';
-dotenv.config({ path: path.resolve(process.cwd(), envFile) });
-
-// Fallback to .env if environment-specific file doesn't exist
-dotenv.config();
+// Load environment variables based on NODE_ENV only
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.production') });
+} else {
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.development') });
+}
+// Load base .env for common variables
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 /**
  * Data Cleanup Tool

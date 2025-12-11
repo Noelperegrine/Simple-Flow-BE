@@ -17,7 +17,11 @@
     "clear-imported": "ts-node src/scripts/clear-imported-cli.ts",
     "list-sessions": "ts-node src/scripts/list-sessions-cli.ts",
     "simple-fast-import": "ts-node src/scripts/simple-fast-import.ts",
-    "test": "echo \"Tests not configured yet\""
+    "test": "echo \"Tests not configured yet\"",
+    "test-openai": "ts-node src/scripts/test-openai-integration.ts",
+    "test-openai-quick": "ts-node src/scripts/quick-openai-test.ts",
+    "test-settings": "ts-node src/scripts/test-settings-config.ts",
+    "test-custom-api": "ts-node src/scripts/test-custom-api-key.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,13 +1,49 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 import { MailjetService } from '../services/mailjetService';
 import TermiiService from '../services/termiiService';
+import OpenAIService from '../services/openaiService';
 
 // Integration service routes
 export default async function integrationRoutes(fastify: FastifyInstance, options: FastifyPluginOptions) {
   // POST /api/integrations/invoke-llm
-  fastify.post('/invoke-llm', async (request, reply) => {
-    // TODO: Implement LLM integration
-    reply.code(501).send({ error: 'Not implemented yet' });
+  fastify.post('/invoke-llm', {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['prompt'],
+        properties: {
+          prompt: { type: 'string' },
+          response_json_schema: { type: 'object' },
+          model: { type: 'string' },
+          temperature: { type: 'number' },
+          max_tokens: { type: 'number' },
+          custom_api_key: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    try {
+      const body = request.body as any;
+      const openaiService = new OpenAIService(body.custom_api_key);
+      const result = await openaiService.invokeLLM(body);
+      
+      if (result.success) {
+        reply.send({
+          success: true,
+          data: result.data
+        });
+      } else {
+        reply.code(500).send({
+          success: false,
+          error: result.error
+        });
+      }
+    } catch (error: any) {
+      reply.code(500).send({
+        success: false,
+        error: error.message
+      });
+    }
   });
 
   // POST /api/integrations/send-email

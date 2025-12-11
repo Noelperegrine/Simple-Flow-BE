@@ -3,9 +3,14 @@ import path from 'path';
 import connectDB from '../utils/database';
 import { ImportTracker } from '../utils/import-tracker';
 
-// Load environment variables
-dotenv.config({ path: '.env.development' });
-dotenv.config({ path: '.env' });
+// Load environment variables based on NODE_ENV only
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.production') });
+} else {
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.development') });
+}
+// Load base .env for common variables
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 interface ClearOptions {
   models: string[];

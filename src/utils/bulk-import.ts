@@ -6,10 +6,14 @@ import connectDB from './database';
 import { Customer, User, AppConfig, ActivityLog } from '../models/mongodb';
 import { ImportTracker } from './import-tracker';
 
-// Load environment variables
-const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development';
-dotenv.config({ path: path.resolve(process.cwd(), envFile) });
-dotenv.config();
+// Load environment variables based on NODE_ENV only
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.production') });
+} else {
+  dotenv.config({ path: path.resolve(process.cwd(), '.env.development') });
+}
+// Load base .env for common variables
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 interface ImportConfig {
   model: 'customers' | 'users' | 'appconfigs' | 'activitylogs';

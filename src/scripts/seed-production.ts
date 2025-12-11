@@ -1,42 +1,34 @@
+#!/usr/bin/env ts-node
+
+// Force production environment
+process.env.NODE_ENV = 'production';
+
 import dotenv from 'dotenv';
 import path from 'path';
 import connectDB from '../utils/database';
 import { Customer, User, AppConfig } from '../models/mongodb';
 
-// Ensure NODE_ENV is set before any environment loading
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'development';
-}
-
-// Load environment-specific variables ONLY
-console.log('NODE_ENV before loading:', process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'production') {
-  console.log('Loading production environment...');
-  dotenv.config({ path: path.resolve(process.cwd(), '.env.production') });
-} else {
-  console.log('Loading development environment...');
-  dotenv.config({ path: path.resolve(process.cwd(), '.env.development') });
-}
+// Load production environment ONLY
+console.log('🏭 PRODUCTION SEED - Loading production environment...');
+dotenv.config({ path: path.resolve(process.cwd(), '.env.production') });
 // Load base .env for any common variables
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+
 console.log('Final MONGODB_URI:', process.env.MONGODB_URI);
 
 const seedData = async () => {
   try {
-    console.log('🌱 Starting database seeding...');
+    console.log('🌱 Starting PRODUCTION database seeding...');
     
     // Connect to database
     await connectDB();
-
-    // Clear existing data (only in development)
-    if (process.env.NODE_ENV !== 'production') {
-      await Customer.deleteMany({});
-      await User.deleteMany({});
-      await AppConfig.deleteMany({});
-      console.log('🧹 Cleared existing data');
-    }
-
-    // Seed Customers
+    
+    console.log('🧹 Clearing existing data in PRODUCTION...');
+    await Customer.deleteMany({});
+    await User.deleteMany({});
+    await AppConfig.deleteMany({});
+    
+    // Seed customers
     const customers = [
       {
         name: "Wellness Family Practice",
@@ -98,21 +90,20 @@ const seedData = async () => {
       {
         name: "Sunset Physical Therapy",
         email: "contact@sunsetpt.com",
-        status: "churned",
-        health_score: 0,
-        mrr: 0,
-        plan: "Starter",
-        churn_date: new Date('2024-11-15'),
+        status: "active",
+        health_score: 78,
+        mrr: 199,
+        plan: "Essential",
         feature_usage: {
-          scheduling_appointments: 23,
-          telehealth_sessions: 2,
-          notes_created: 12,
-          billing_transactions: 18,
-          insurance_claims: 5,
-          claims_filed: 5,
-          client_portal_logins: 34,
-          measurement_assessments: 1,
-          treatment_plans: 2
+          scheduling_appointments: 123,
+          telehealth_sessions: 15,
+          notes_created: 67,
+          billing_transactions: 89,
+          insurance_claims: 34,
+          claims_filed: 34,
+          client_portal_logins: 178,
+          measurement_assessments: 8,
+          treatment_plans: 12
         }
       }
     ];
@@ -120,7 +111,7 @@ const seedData = async () => {
     await Customer.insertMany(customers);
     console.log(`👥 Seeded ${customers.length} customers`);
 
-    // Seed Users
+    // Seed users
     const users = [
       {
         email: "admin@practiceflow.com",
@@ -142,23 +133,21 @@ const seedData = async () => {
     await User.insertMany(users);
     console.log(`👤 Seeded ${users.length} users`);
 
-    // Seed App Configuration
+    // Seed app configuration
     const appConfig = {
       app_id: "practice-flow-app",
       public_settings: {
         app_name: "Practice Flow",
         features_enabled: {
-          executive_reports: true,
-          customer_success: true,
-          churn_analysis: true,
           analytics: true,
-          practice_health: true,
-          product_usage: true
+          reporting: true,
+          customer_management: true,
+          user_management: true,
+          churn_prediction: true
         },
         theme: {
-          primary_color: "#F59E0B",
-          secondary_color: "#10B981",
-          accent_color: "#3B82F6"
+          primary_color: "#3b82f6",
+          secondary_color: "#6b7280"
         }
       }
     };
@@ -166,18 +155,12 @@ const seedData = async () => {
     await AppConfig.create(appConfig);
     console.log('⚙️ Seeded app configuration');
 
-    console.log('✅ Database seeding completed successfully!');
+    console.log('✅ PRODUCTION Database seeding completed successfully!');
     process.exit(0);
-
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    console.error('❌ Error seeding PRODUCTION database:', error);
     process.exit(1);
   }
 };
 
-// Run seeding if called directly
-if (require.main === module) {
-  seedData();
-}
-
-export default seedData;
+seedData();
